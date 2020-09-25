@@ -8,5 +8,5 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 class TrustProxies extends Middleware
 {
   protected $proxies = '*';
-  protected $headers = Request:: HEADER_X_FORWADED_AWS_ELB;
+  protected $headers = Request::HEADER_X_FORWADED_AWS_ELB;
 }
