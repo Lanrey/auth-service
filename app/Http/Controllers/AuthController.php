@@ -23,7 +23,7 @@ class AuthController extends Controller
     $this->validate($request, [
       'name' => 'required|string',
       'email' => 'required|email|unique:users',
-      'password' => 'required|confirmed',
+      'password' => 'required',
     ]);
 
     try {
@@ -39,6 +39,8 @@ class AuthController extends Controller
       return response()->json(['user' => $user, 'message' => 'User Created Sucessfully', 201]);
 
     } catch (\Exception $e) {
+
+      print $e;
       //return error message
       return response()->json(['message' => 'User Registration Failed!'],409);
     }

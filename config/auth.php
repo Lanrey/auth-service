@@ -3,6 +3,7 @@
 <?php
 
 return [
+  
     'defaults' => [
         'guard' => 'api',
         'passwords' => 'users',
