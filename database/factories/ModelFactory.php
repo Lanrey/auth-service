@@ -4,6 +4,7 @@
 
 use App\User;
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,8 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'password' => bcrypt('secret'),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now(),
     ];
 });

@@ -15,7 +15,7 @@ class UserControllerTest extends TestCase
   /** @test **/
   public function single_user_status_code_should_be_200()
   {
-    $this->get('/')
+    $this->get('/api/user/1')->seeStatusCode(200);
   }
 
   /** @test **/
