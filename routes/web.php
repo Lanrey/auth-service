@@ -22,6 +22,10 @@ $router->get('/key', function() {
 $router->group(['prefix' => 'api'], function () use ($router) {
     //Registration endpoint
     $router->post('register', 'AuthController@register');
-
     $router->post('login', 'AuthController@login');
+
+    
+    //Get all Users
+    $router->get('user/{id}', 'UserController@singleUser');
+    $router->get('users', 'UserController@allUsers');
 });
