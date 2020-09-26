@@ -1,9 +1,8 @@
-//config.auth.php
 
 <?php
 
 return [
-  
+
     'defaults' => [
         'guard' => 'api',
         'passwords' => 'users',
