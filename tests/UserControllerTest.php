@@ -8,6 +8,7 @@ class UserControllerTest extends TestCase
 {
 
   use DatabaseMigrations;
+  
   /** @test **/
   public function index_status_code_should_be_200()
   {

@@ -24,7 +24,14 @@ class UserController extends Controller
      */
     public function authenticatedUser()
     {
-        return response()->json(['user' => Auth::user()], 200);
+        try {
+
+            return response()->json(['user' => Auth::user()], 200);
+            //code...
+        } catch (\Exception $e) {
+            //throw $th;
+            return response()->json(['message' => 'user not found!'], 404);
+        }
     }
 
     /**
@@ -34,7 +41,14 @@ class UserController extends Controller
      */
     public function allUsers()
     {
-      return response()->json(['users' =>  User::all()], 200);
+        try {
+            //code...
+            return response()->json(['users' =>  User::all()], 200);
+
+        } catch (\Exception $e) {
+            //throw $th;
+            return response()->json(['message' => 'user not found!'], 404);
+        }
     }
 
     /**
@@ -45,13 +59,14 @@ class UserController extends Controller
     public function singleUser($id)
     {
         try {
+
             $user = User::findOrFail($id);
 
             return response()->json(['user' => $user], 200);
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'user not found!'], 404);
+          return response()->json(['message' => 'user not found!'], 404);
         }
 
     }
