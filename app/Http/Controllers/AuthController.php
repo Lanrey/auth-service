@@ -4,10 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use League\Fractal;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use App\Transformer\UserTransformer;
 use App\User;
 
 class AuthController extends Controller 
 {
+
+  private $fractal;
+  /**
+  * Instantiate a new UserController instance.
+  *
+  *  @return void
+  */
+  public function __construct()
+  {
+    $this->fractal = new Manager();
+  }
+
 
   /**
    * Register and store a new user.
@@ -28,6 +44,7 @@ class AuthController extends Controller
 
     try {
 
+
       $user = new User;
       $user->name = $request->input('name');
       $user->email = $request->input('email');
@@ -36,13 +53,17 @@ class AuthController extends Controller
 
       $user->save();
 
-      return response()->json(['user' => $user, 'message' => 'User Created Sucessfully'], 201);
+      $resource = new Item($user, new UserTransformer);
+      return $this->fractal->createData($resource)->toArray();
 
-    } catch (\Exception $e) {
 
-      print $e;
-      //return error message
-      return response()->json(['message' => 'User Registration Failed!'],409);
+    } catch (\ModelNotFoundException $e) {
+
+      return response()->json([
+        'error' => [
+            'message' => 'Authentication Failed!'
+        ]
+      ]);
     }
 
   }
@@ -64,13 +85,24 @@ class AuthController extends Controller
        'password' => 'required|string'
      ]);
 
-     $credentials = $request->only(['email', 'password']);
+     try {
 
-     if (!$token = Auth::attempt($credentials)) {
-       return response()->json(['message' => 'Unauthorized'], 401);
+      $credentials = $request->only(['email', 'password']);
+
+      if (!$token = Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+      }
+ 
+      return $this->respondWithToken($token);
+
+     } catch (\ModelNotFoundException $e) {
+
+        return response()->json([
+          'error' => [
+             'message' => 'Login Failed!'
+          ]
+        ]);
      }
-
-     return $this->respondWithToken($token);
    }
 
 }

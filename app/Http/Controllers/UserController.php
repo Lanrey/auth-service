@@ -5,10 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use  App\User;
+use App\User;
+use App\Transformer\UserTransformer;
+use League\Fractal;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+
 
 class UserController extends Controller
 {
+    private $fractal;
      /**
      * Instantiate a new UserController instance.
      *
@@ -17,6 +25,7 @@ class UserController extends Controller
     public function __construct()
     {
       $this->middleware('auth');
+      $this->fractal = new Manager();
     }
 
     /**
@@ -30,7 +39,8 @@ class UserController extends Controller
 
             $auth_user = Auth::user();
 
-            return $this->item($auth_user, new UserTransformer);
+            $resource = new Item($auth_user, new UserTransformer);
+            return $this->fractal->createData($resource)->toArray();
 
             //return response()->json(['user' => Auth::user()], 200);
         } catch (\ModelNotFoundException $e) {
@@ -50,10 +60,12 @@ class UserController extends Controller
     public function allUsers()
     {
         try {
-            
-            $all_users = User::paginate();
 
-            return $this->collection($all_users, new UserTransformer);
+            $paginator = User::paginate();
+            $users = $paginator->getCollection();
+            $resource = new Collection($users, new UserTransformer);
+            $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+            return $this->fractal->createData($resource)->toArray();
 
         } catch (\ModelNotFoundException $e) {
             
@@ -76,7 +88,8 @@ class UserController extends Controller
 
             $user = User::findOrFail($id);
 
-            return $this->item($user, new UserTransformer);
+            $resource = new Item($user, new UserTransformer);
+            return $this->fractal->createData($resource)->toArray();
 
 
         } catch (\ModelNotFoundException $e) {

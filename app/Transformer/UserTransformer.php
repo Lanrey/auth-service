@@ -11,7 +11,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 	{
 	    return [
 	        'id'      => (int) $user->id,
-	        'name'   => $user->product_name,
+	        'name'   => $user->name,
           'email'    =>  $user->email,
           'created'     => $user->created_at->toIso8601String(),
           'updated'     => $user->updated_at->toIso8601String(),
