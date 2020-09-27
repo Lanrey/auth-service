@@ -1,6 +1,5 @@
 <?php
 
-use TestCase;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 
