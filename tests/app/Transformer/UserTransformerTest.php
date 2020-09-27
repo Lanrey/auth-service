@@ -2,14 +2,16 @@
 
 namespace Tests\App\Transformer;
 
+use TestCase;
+
 use App\User;
 use App\Transformer\UserTransformer;
 use League\Fractal\TransformerAbstract;
-//use Laravel\Lumen\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Laravel\Lumen\Testing\DatabaseMigrations;
+//use Illuminate\Foundation\Testing\DatabaseMigrations;
+//use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BookTransformerTest extends TestCase
+class UserTransformerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,12 +23,12 @@ class BookTransformerTest extends TestCase
     }
 
     /** @test **/
-    public function it_transforms_a_book_model()
+    public function it_transforms_a_user_model()
     {
-        $book = $this->userFactory();
+        $user = factory('App\User', 1)->make();;
         $subject = new UserTransformer();
 
-        $transform = $subject->transform($book);
+        $transform = $subject->transform($user);
 
         $this->assertArrayHasKey('id', $transform);
         $this->assertArrayHasKey('name', $transform);
