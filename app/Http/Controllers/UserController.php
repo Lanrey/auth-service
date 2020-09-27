@@ -30,7 +30,8 @@ class UserController extends Controller
         try {
 
             $auth_user = Auth::user();
-            $data = $this->item($auth_user, new UserTransformer());
+            print($auth_user);
+            $data = $this->item($auth_user, new UserTransformer);
 
             return response()->json(
                 $data, 200
@@ -56,7 +57,7 @@ class UserController extends Controller
         try {
             
             $all_users = User::all();
-            $data = $this->collection($all_users, new UserTransformer());
+            $data = $this->collection($all_users, new UserTransformer);
 
             return response()->json($data, 200);
 
@@ -80,7 +81,7 @@ class UserController extends Controller
         try {
 
             $user = User::findOrFail($id);
-            $data = $this->item($user, new UserTransformer());
+            $data = $this->item($user, new UserTransformer);
 
             return response()->json($data, 200);
 
@@ -91,7 +92,7 @@ class UserController extends Controller
                     'message' => 'Users not found'
                 ]
                 ], 404);
-                
+
         }
 
     }
