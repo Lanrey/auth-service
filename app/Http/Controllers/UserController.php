@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Transformer\UserTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use  App\User;
 
 class UserController extends Controller
@@ -26,11 +29,20 @@ class UserController extends Controller
     {
         try {
 
-            return response()->json(['user' => Auth::user()], 200);
-            //code...
-        } catch (\Exception $e) {
-            //throw $th;
-            return response()->json(['message' => 'user not found!'], 404);
+            $auth_user = Auth::user();
+            $data = $this->item($auth_user, new UserTransformer());
+
+            return response()->json(
+                $data, 200
+            );
+
+            //return response()->json(['user' => Auth::user()], 200);
+        } catch (\ModelNotFoundException $e) {
+            return response()->json([
+                'error' => [
+                    'message' => 'User not found'
+                ]
+            ]);
         }
     }
 
@@ -42,12 +54,19 @@ class UserController extends Controller
     public function allUsers()
     {
         try {
-            //code...
-            return response()->json(['users' =>  User::all()], 200);
+            
+            $all_users = User::all();
+            $data = $this->collection($all_users, new UserTransformer());
 
-        } catch (\Exception $e) {
-            //throw $th;
-            return response()->json(['message' => 'user not found!'], 404);
+            return response()->json($data, 200);
+
+        } catch (\ModelNotFoundException $e) {
+            
+            return response()->json([
+                'error' => [
+                    'message' => 'Users not found'
+                ]
+                ], 404);
         }
     }
 
@@ -61,12 +80,18 @@ class UserController extends Controller
         try {
 
             $user = User::findOrFail($id);
+            $data = $this->item($user, new UserTransformer());
 
-            return response()->json(['user' => $user], 200);
+            return response()->json($data, 200);
 
-        } catch (\Exception $e) {
+        } catch (\ModelNotFoundException $e) {
 
-          return response()->json(['message' => 'user not found!'], 404);
+            return response()->json([
+                'error' => [
+                    'message' => 'Users not found'
+                ]
+                ], 404);
+                
         }
 
     }
