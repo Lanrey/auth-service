@@ -21,7 +21,7 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt('secret'),
+        'password' => app('hash')->make($faker->text),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
     ];

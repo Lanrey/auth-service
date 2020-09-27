@@ -1,6 +1,6 @@
 <?php
 
-use Carbon\Carbon;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
@@ -13,6 +13,8 @@ class UserTableSeeder extends Seeder
 
    public function run()
    {
-     $users = factory(App/User::class, 50)->create();
+    // User::factory()->times(50)->create()
+           
+     factory(App\User::class, 50)->create();
    }
 }

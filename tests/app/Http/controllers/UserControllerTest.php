@@ -1,23 +1,39 @@
 <?php
 
-use Carbon\Carbon;
-use Laravel\Lumen\Testing\DatabaseMigrations;
+
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserControllerTest extends TestCase
 {
 
   use DatabaseMigrations;
-  
+
   /** @test **/
-  public function index_status_code_should_be_200()
+  public function all_users_status_code_should_be_200()
   {
-    $this->get('/api/users')->seeStatusCode(200);
+    $user = factory('App\User')->make();
+
+    $this->actingAs($user)
+         ->get('/api/user')->seeStatusCode(200);
+    //$this->get('/api/users')->seeStatusCode(200);
   }
 
   /** @test **/
   public function single_user_status_code_should_be_200()
   {
+
+    $user = factory('App\User')->create();
+
+    $this->actingAs($user)
+         ->get('/api/user')->seeStatusCode(200);
     $this->get('/api/user/1')->seeStatusCode(200);
+  }
+
+  /** @test **/
+  public function authenticated_user_status_code_should_be_200()
+  {
+    $this->get('/api/auth-user-profile')->seeStatusCode(200);
   }
 
   /** @test **/
