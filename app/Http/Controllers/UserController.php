@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Transformer\UserTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use  App\User;
 
@@ -30,12 +29,8 @@ class UserController extends Controller
         try {
 
             $auth_user = Auth::user();
-            print($auth_user);
-            $data = $this->item($auth_user, new UserTransformer);
 
-            return response()->json(
-                $data, 200
-            );
+            return jsend_success($auth_user);
 
             //return response()->json(['user' => Auth::user()], 200);
         } catch (\ModelNotFoundException $e) {
@@ -56,10 +51,9 @@ class UserController extends Controller
     {
         try {
             
-            $all_users = User::all();
-            $data = $this->collection($all_users, new UserTransformer);
+            $all_users = User::all()->simplePaginate(10);
 
-            return response()->json($data, 200);
+            return jsend_success($all_users);
 
         } catch (\ModelNotFoundException $e) {
             
@@ -81,9 +75,8 @@ class UserController extends Controller
         try {
 
             $user = User::findOrFail($id);
-            $data = $this->item($user, new UserTransformer);
 
-            return response()->json($data, 200);
+            return jsend_success($user);
 
         } catch (\ModelNotFoundException $e) {
 

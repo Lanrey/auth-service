@@ -3,44 +3,51 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Response\FractalResponse;
-use League\Fractal\TransformerAbstract;
+use League\Fractal;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-     /**
-     * @var FractalResponse
-     */
     private $fractal;
 
-    public function __construct(FractalResponse $fractal)
+    public function __construct()
     {
-        $this->fractal = $fractal;
-        $this->fractal->parseIncludes();
+        $this->fractal = new Manager();
+    }
+
+
+      /**
+     * @param $data
+     * @param TransformerAbstract $transformer
+     * @return array
+     */
+    public function item($data, TransformerAbstract $transformer)
+    {
+        $resource = new Item($data, $transformer);
+
+        return $this->fractal->createData($resource)->toArray();
     }
 
     /**
      * @param $data
      * @param TransformerAbstract $transformer
-     * @param null $resourceKey
      * @return array
      */
-    public function item($data, TransformerAbstract $transformer, $resourceKey = null)
+    public function collection($data, TransformerAbstract $transformer)
     {
-        return $this->fractal->item($data, $transformer, $resourceKey);
+
+        $paginatedData = $data->getCollection();
+        $resource = new Collection($paginatedData, $transformer);
+        $resource->setPaginator(new IlluminatePaginatorAdapter($paginatedData));
+        return $this->fractal->createData($resource)->toArray();
+        
     }
 
-    /**
-     * @param $data
-     * @param TransformerAbstract $transformer
-     * @param null $resourceKey
-     * @return array
-     */
-    public function collection($data, TransformerAbstract $transformer, $resourceKey = null)
-    {
-        return $this->fractal->collection($data, $transformer, $resourceKey);
-    }
     
     // Generate Token Method for all Controllers
     protected function respondWithToken($token)
