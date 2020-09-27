@@ -1,24 +1,55 @@
-# Lumen PHP Framework
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+Generate API documentation for humans from your Laravel codebase. [Here's what the output looks like](https://shalvah.me/TheCensorshipAPI/).
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+[![Latest Stable Version](https://poser.pugx.org/knuckleswtf/scribe/v/stable)](https://packagist.org/packages/knuckleswtf/scribe)[![Build Status](https://travis-ci.com/knuckleswtf/scribe.svg?branch=master)](https://travis-ci.com/knuckleswtf/scribe)
 
-## Official Documentation
+> Looking to document your Node.js APIs? Check out [Scribe for JS](https://github.com/knuckleswtf/scribe-js).
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+## Features
+- Pretty HTML documentation page, with included code samples and friendly text
+- Markdown source files that can be edited to modify docs
+- Extracts body parameters information from Laravel FormRequests
+- Safely calls API endpoints to generate sample responses, with authentication and other custom configuration supported
+- Supports generating responses from Eloquent API Resources or Fractal Transformers
+- Supports Postman collection and OpenAPI (Swagger) spec generation
+- Included UI components for additional styling
+- Easily customisable with custom views
+- Easily extensible with custom strategies
+
+## Documentation
+> Scribe is a fork of [mpociot/laravel-apidoc-generator](https://github.com/mpociot/laravel-apidoc-generator), so see the [migration guide](https://scribe.rtfd.io/en/latest/migrating.html) if you're coming from there.
+
+Check out the documentation at [ReadTheDocs](http://scribe.rtfd.io/).
+
+## Installation
+PHP 7.2.5 and Laravel/Lumen 5.8 or higher are required.
+
+```sh
+composer require --dev knuckleswtf/scribe
+```
+
+### Laravel
+Publish the config file by running:
+
+```bash
+php artisan vendor:publish --provider="Knuckles\Scribe\ScribeServiceProvider" --tag=scribe-config
+```
+
+This will create a `scribe.php` file in your `config` folder.
+
+### Lumen
+- When using Lumen, you will need to run `composer require knuckleswtf/scribe` instead (no `--dev`.
+- Register the service provider in your `bootstrap/app.php`:
+
+```php
+$app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
+```
+
+- Copy the config file from `vendor/knuckleswtf/scribe/config/scribe.php` to your project as `config/scribe.php`. Then add to your `bootstrap/app.php`:
+
+```php
+$app->configure('scribe');
+```
 
 ## Contributing
-
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Contributing is easy! See our [contribution guide](https://scribe.rtfd.io/en/latest/contributing.html).
