@@ -30,7 +30,7 @@ class UserController extends Controller
 
             $auth_user = Auth::user();
 
-            return jsend_success($auth_user);
+            return $this->item($auth_user, new UserTransformer);
 
             //return response()->json(['user' => Auth::user()], 200);
         } catch (\ModelNotFoundException $e) {
@@ -51,9 +51,9 @@ class UserController extends Controller
     {
         try {
             
-            $all_users = User::all()->simplePaginate(10);
+            $all_users = User::paginate();
 
-            return jsend_success($all_users);
+            return $this->collection($all_users, new UserTransformer);
 
         } catch (\ModelNotFoundException $e) {
             
@@ -76,7 +76,8 @@ class UserController extends Controller
 
             $user = User::findOrFail($id);
 
-            return jsend_success($user);
+            return $this->item($user, new UserTransformer);
+
 
         } catch (\ModelNotFoundException $e) {
 
