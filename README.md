@@ -40,5 +40,4 @@ Check out the documentation at [ReadTheDocs](https://documenter.getpostman.com/v
   docker rm CONTAINERNAME
 
 
-## Running tests
 
