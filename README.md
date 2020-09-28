@@ -1,7 +1,7 @@
 
 A Minimal Authentication System.
 
-[![Build Status](https://travis-ci.org/Lanrey/auth-service.svg?branch=master)](https://travis-ci.org/Lanrey/auth-service)
+<!--[![Build Status](https://travis-ci.org/Lanrey/auth-service.svg?branch=master)](https://travis-ci.org/Lanrey/auth-service)-->
 
 
 ## Features
