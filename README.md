@@ -21,13 +21,23 @@ Check out the documentation at [ReadTheDocs](https://documenter.getpostman.com/v
 
 ## Installation without docker
 - PHP 7.2.5 and Laravel/Lumen 5.8 or higher are required.
-- Run Composer install
-- Copy .env.example to .env
-- Setup environment variables
-- Run php artisan migrate to migrate database
-- 
+- Cd to source folder
+  - Run Composer install
+  - Copy .env.example to .env
+  - Setup environment variables
+  - Run php artisan migrate to migrate database
+
 
 ## Installation with docker
+  //build and run (from root of project)
+  docker build --tag IMAGENAME .
+  docker run -d -p 9000:9000 --name CONTAINERNAME -it IMAGENAME /bin/sh
+     
+  docker exec -it CONTAINERNAME /bin/sh
+
+  docker stop CONTAINERNAME
+  docker start CONTAINERNAME
+  docker rm CONTAINERNAME
 
 
 ## Running tests

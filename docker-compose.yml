@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  ####################################################################################################
+  # The Application
+  ####################################################################################################
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: "docker/php/Dockerfile.dev"
+    expose:
+      - 9000
+    environment:
+      - PHP_EXTENSION_XDEBUG=1
+    volumes:
+      - ./source:/var/www
+    working_dir: /var/www
+    networks:
+      - net_webserver
+
+  ####################################################################################################
+  # The Web Server
+  ####################################################################################################
+  nginx_app:
+    container_name: nginx_app
+    build:
+      context: .
+      dockerfile: "docker/nginx/Dockerfile"
+      args:
+        - TAG=${WEBSERVER_TAG}
+    volumes:
+      - ./source:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/logs/:/var/log/nginx/
+      - ./docker/nginx/pages/:/usr/share/nginx/html/
+    ports:
+      - "80:80"
+    working_dir: /var/www
+    networks:
+      - net_webserver
+    depends_on:
+      - app
+
+networks:
+  net_webserver: {}
