@@ -1,7 +1,7 @@
 
 A Minimal Authentication System.
 
-[![Build Status](https://travis-ci.org/Lanrey/auth-service.svg?branch=dev)](https://travis-ci.org/Lanrey/auth-service)
+[![Build Status](https://travis-ci.org/Lanrey/auth-service.svg?branch=master)](https://travis-ci.org/Lanrey/auth-service)
 
 
 ## Features
@@ -16,7 +16,7 @@ A Minimal Authentication System.
 Check out the documentation at [ReadTheDocs](https://documenter.getpostman.com/view/7081137/TVKHVFf5).
 
 ```sh
-  Development Api => https://patricia-tests.herokuapp.com/
+  Production Api => https://patricia-auth-services.herokuapp.com/
 ```
 
 ## Installation without docker
