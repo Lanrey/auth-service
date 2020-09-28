@@ -29,6 +29,10 @@ Check out the documentation at [ReadTheDocs](https://documenter.getpostman.com/v
 
 ## Installation with docker
 
+//build and run (from root of project) 
+ - docker build --tag IMAGENAME . docker run -d -p 9000:9000 --name CONTAINERNAME -it IMAGENAME /bin/sh
 
-## Running tests
+ - docker exec -it CONTAINERNAME /bin/sh
+
+ - docker stop CONTAINERNAME docker start CONTAINERNAME docker rm CONTAINERNAME
 
